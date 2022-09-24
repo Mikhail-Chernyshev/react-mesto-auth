@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import PopupWithForm from "./PopupWithForm.js";
 import { CurrentUserContext } from "../contexts/CurrentUserContext.js";
 import useForm from "../hooks/useForm";
@@ -13,7 +13,9 @@ function EditProfilePopup(props) {
 
   function handleSubmit(evt) {
     evt.preventDefault();
+    
     props.onUpdateUser({ name: values.name, about: values.about });
+  
   }
   return (
     <PopupWithForm

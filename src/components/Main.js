@@ -3,26 +3,26 @@ import buttonAddImage from "../images/Vectorrrbutton.svg";
 import React from "react";
 import Card from "./Card.js";
 import { CurrentUserContext } from "../contexts/CurrentUserContext.js";
-
 function Main({
   onEditAvatar,
   onEditProfile,
   onAddPlace,
   onCardClick,
-  onDeleteConfirmPopup,
-  isDeleteConfirmPopupOpen,
   cards,
   onCardLike,
   onCardDelete,
-  onClose,
   onDeleteClick,
-  onCardDeleteClick
+  onCardDeleteClick,
 }) {
   const currentUser = React.useContext(CurrentUserContext);
   return (
     <main className="main">
       <section className="profile">
-        <img src={currentUser.avatar} alt="аватар" className="profile__avatar" />
+        <img
+          src={currentUser.avatar}
+          alt="аватар"
+          className="profile__avatar"
+        />
         <div className="profile__button-edit" onClick={onEditAvatar}></div>
         <h1 className="profile__name">{currentUser.name}</h1>
         <p className="profile__rank">{currentUser.about}</p>

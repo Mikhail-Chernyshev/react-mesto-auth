@@ -142,3 +142,8 @@
   //   evt.preventDefault();
   //   props.onAddPlace({ name: name, link: link });
   // }
+          {/* <Link to="/signin" className="header__button">
+          {" "}
+          {props.loggedIn ? "Выйти" : "Войти"}
+          {/* {props.loggedIn ? "Выйти" : props.isLoginForm ? "Регистрация" : "Войти"} */}
+        {/* </Link> */} */}

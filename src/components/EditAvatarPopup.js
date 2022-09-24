@@ -4,14 +4,12 @@ import useForm from "../hooks/useForm";
 
 function EditAvatarPopup(props) {
   const { values, errors, handleChange, isFormValid, resetForm } = useForm();
-  // const myRef = React.useRef();
 React.useEffect(() => {
   resetForm();
 }, [resetForm, props.isOpen])
   function handleSubmit(evt) {
     evt.preventDefault();
     props.onUpdateAvatar({
-        // link: myRef.current.value,
         link: values.link
     });
   }
@@ -27,7 +25,6 @@ React.useEffect(() => {
     >
       <div className="popup__container popup-avatar__container">
         <input
-          // ref={myRef}
           type="url"
           id="avatar-name-input"
           minLength="2 "
@@ -39,7 +36,7 @@ React.useEffect(() => {
           placeholder="Введите ссылку"
           onChange={handleChange}
         />
-       {errors.link && (<span className="popup__input-error popup__input-error_active avatar-name-input-error">{errors.link}</span>)}
+       {errors.link && (<span className="popup__input-error popup__input-error_active -name-input-error">{errors.link}</span>)}
       </div>
     </PopupWithForm>
   );
