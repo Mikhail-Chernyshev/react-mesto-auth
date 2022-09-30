@@ -83,9 +83,6 @@ function App() {
   function handleInfoToolOpen() {
     setIsInfoTooltipOpen(true);
   }
-  function setTootlipFailStatus(isSuccess) {
-    setIsSuccessTooltipStatus(isSuccess);
-  }
   function handleEditProfileClick() {
     setIsEditProfilePopupOpen(true);
   }
@@ -182,12 +179,12 @@ function App() {
       .register(data)
       .then((res) => {
         handleInfoToolOpen();
-        setTootlipFailStatus(true);
+        setIsSuccessTooltipStatus(true);
         navigate("/signin");
       })
       .catch((err) => {
         handleInfoToolOpen();
-        setTootlipFailStatus(false);
+        setIsSuccessTooltipStatus(false);
       });
   }
   function handleAuthorize(data) {
@@ -201,7 +198,7 @@ function App() {
       })
       .catch((err) => {
         handleInfoToolOpen();
-        setTootlipFailStatus();
+        setIsSuccessTooltipStatus(false);
       });
   }
   function handleLoggedOut() {
@@ -251,16 +248,25 @@ function App() {
 
           <Route
             path="/signup"
-            element={
-              <Register
-                changeRegStatus={setTootlipFailStatus}
-                onSubmit={handleRegister}
-              />
-            }
+            element={<Register onSubmit={handleRegister} />}
           />
           <Route
             path="/signin"
             element={<Login onSubmit={handleAuthorize} />}
+          />
+          <Route
+            path="/*"
+            element={
+              <Main
+                onEditProfile={handleEditProfileClick}
+                onEditAvatar={handleEditAvatarClick}
+                onAddPlace={handleAddPlaceClick}
+                onCardClick={handleCardClick}
+                cards={cards}
+                onCardLike={handleCardLike}
+                onCardDeleteClick={handleDeleteConfirmClick}
+              />
+            }
           />
         </Routes>
         <InfoTooltip
@@ -288,13 +294,16 @@ function App() {
           cardId={currentDeletionCard}
         />
         <EditAvatarPopup
-          isPopupOpened={isAnyPopupOpened}
           isLoading={isLoading}
           isOpen={isEditAvatarPopupOpen}
           onClose={closeAllPopups}
           onUpdateAvatar={handleUpdateAvatar}
         />
-        <ImagePopup card={selectedCard} onClose={closeAllPopups} isPopupOpened={isAnyPopupOpened}/>
+        <ImagePopup
+          card={selectedCard}
+          onClose={closeAllPopups}
+          isPopupOpened={selectedCard !== null}
+        />
         <Footer />
       </div>
     </CurrentUserContext.Provider>

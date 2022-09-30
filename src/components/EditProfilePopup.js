@@ -3,30 +3,30 @@ import PopupWithForm from "./PopupWithForm.js";
 import { CurrentUserContext } from "../contexts/CurrentUserContext.js";
 import useForm from "../hooks/useForm";
 
-function EditProfilePopup(props) {
+function EditProfilePopup({isOpen, onUpdateUser, isLoading, onClose}) {
   const currentUser = React.useContext(CurrentUserContext);
   const { values, errors, handleChange, isFormValid, resetForm } = useForm();
 
   React.useEffect(() => {
     currentUser ? resetForm(currentUser) : resetForm();
-  }, [currentUser, resetForm, props.isOpen]);
+  }, [currentUser, resetForm, isOpen]);
 
   function handleSubmit(evt) {
     evt.preventDefault();
     
-    props.onUpdateUser({ name: values.name, about: values.about });
+    onUpdateUser({ name: values.name, about: values.about });
   
   }
   return (
     <PopupWithForm
       isFormValid={isFormValid}
-      isLoading={props.isLoading}
-      onClose={props.onClose}
+      isLoading={isLoading}
+      onClose={onClose}
       name="profile"
       title="Редактировать профиль"
-      isOpen={props.isOpen}
+      isOpen={isOpen}
       onSubmit={handleSubmit}
-      buttonText={props.isLoading ? "Сохранение..." : "Сохранить"}
+      buttonText={isLoading ? "Сохранение..." : "Сохранить"}
     >
       <div className="popup__container">
         <input

@@ -8,20 +8,19 @@ function PopupWithForm({
   children,
   onClose,
   buttonText,
-  isFormValid,
-  isPopupOpened,
+  isFormValid
 }) {
   useEffect(() => {
     function closeByEscape(evt) {
-      if (evt.keyCode === 27) {
+      if (evt.key === 'Escape' ) {
         onClose();
       }
     }
-    if (isPopupOpened) {
+    if (isOpen) {
       document.addEventListener("keydown", closeByEscape);
       return () => document.removeEventListener("keydown", closeByEscape);
     }
-  }, [isPopupOpened]);
+  }, [isOpen]);
   function handleClickOverlay(event) {
     if (event.target === event.currentTarget) onClose(event);
   }

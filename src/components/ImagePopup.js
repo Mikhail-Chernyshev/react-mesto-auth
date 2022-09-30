@@ -3,7 +3,7 @@ import { useEffect } from "react";
 function ImagePopup({ card, onClose, isPopupOpened }) {
   useEffect(() => {
     function closeByEscape(evt) {
-      if (evt.keyCode === 27) {
+      if (evt.key === "Escape") {
         onClose();
       }
     }
@@ -12,11 +12,15 @@ function ImagePopup({ card, onClose, isPopupOpened }) {
       return () => document.removeEventListener("keydown", closeByEscape);
     }
   }, [isPopupOpened]);
+
   function handleClickOverlay(event) {
     if (event.target === event.currentTarget) onClose(event);
   }
   return (
-    <div className={`popup popup-bigpic ${card && "popup_opened"}`} onClick={handleClickOverlay}>
+    <div
+      className={`popup popup-bigpic ${card && "popup_opened"}`}
+      onClick={handleClickOverlay}
+    >
       <div className="popup-bigpic__content">
         <img src={card?.link} alt={card?.name} className="popup-bigpic__pic" />
         <p className="popup-bigpic__title">{card?.name}</p>
