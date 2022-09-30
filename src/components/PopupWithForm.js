@@ -11,11 +11,22 @@ function PopupWithForm({
   isFormValid,
   isPopupOpened,
 }) {
-
+  useEffect(() => {
+    function closeByEscape(evt) {
+      if (evt.keyCode === 27) {
+        onClose();
+      }
+    }
+    if (isPopupOpened) {
+      document.addEventListener("keydown", closeByEscape);
+      return () => document.removeEventListener("keydown", closeByEscape);
+    }
+  }, [isPopupOpened]);
+  function handleClickOverlay(event) {
+    if (event.target === event.currentTarget) onClose(event);
+  }
   return (
-    <div
-      className={`popup popup-${name} ${isOpen && "popup_opened"}`}
-    >
+    <div className={`popup popup-${name} ${isOpen && "popup_opened"}`} onClick={handleClickOverlay}>
       <div className="popup__content">
         <button
           className={`popup__close popup-${name}__close `}

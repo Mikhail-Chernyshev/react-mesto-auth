@@ -36,32 +36,20 @@ function App() {
     selectedCard;
   const [isLoading, setIsLoading] = useState(false);
   const [currentDeletionCard, setCurrentDeletionCard] = useState(null);
-  const [isRegisterWellDone, setIsRegisterWellDone] = useState(true);
+  const [isSuccessTooltipStatus, setIsSuccessTooltipStatus] = useState(true);
   const [authEmail, setAuthEmail] = useState("");
 
   useEffect(() => {
-    function closeByEscape(evt) {
-      if (evt.key === "Escape") {
-        closeAllPopups();
-      }
+    if (loggedIn) {
+      Promise.all([api.getUserInfo(), api.getCards()])
+        .then(([user, cards]) => {
+          setCurrentUser(user);
+          setCards(cards);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
-    if (isAnyPopupOpened) {
-      document.addEventListener("keydown", closeByEscape);
-      return () => {
-        document.removeEventListener("keydown", closeByEscape);
-      };
-    }
-  }, [isAnyPopupOpened]);
-
-  useEffect(() => {
-    Promise.all([api.getUserInfo(), api.getCards()])
-      .then(([user, cards]) => {
-        setCurrentUser(user);
-        setCards(cards);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
   }, [loggedIn]);
 
   useEffect(() => {
@@ -95,8 +83,8 @@ function App() {
   function handleInfoToolOpen() {
     setIsInfoTooltipOpen(true);
   }
-  function handleRegisterWellDone() {
-    setIsRegisterWellDone(false);
+  function setTootlipFailStatus(isSuccess) {
+    setIsSuccessTooltipStatus(isSuccess);
   }
   function handleEditProfileClick() {
     setIsEditProfilePopupOpen(true);
@@ -194,11 +182,12 @@ function App() {
       .register(data)
       .then((res) => {
         handleInfoToolOpen();
+        setTootlipFailStatus(true);
         navigate("/signin");
       })
       .catch((err) => {
         handleInfoToolOpen();
-        handleRegisterWellDone();
+        setTootlipFailStatus(false);
       });
   }
   function handleAuthorize(data) {
@@ -212,7 +201,7 @@ function App() {
       })
       .catch((err) => {
         handleInfoToolOpen();
-        handleRegisterWellDone();
+        setTootlipFailStatus();
       });
   }
   function handleLoggedOut() {
@@ -264,7 +253,7 @@ function App() {
             path="/signup"
             element={
               <Register
-                changeRegStatus={handleRegisterWellDone}
+                changeRegStatus={setTootlipFailStatus}
                 onSubmit={handleRegister}
               />
             }
@@ -275,7 +264,7 @@ function App() {
           />
         </Routes>
         <InfoTooltip
-          registerWellDone={isRegisterWellDone}
+          isSuccess={isSuccessTooltipStatus}
           isOpen={isInfoTooltipOpen}
           onClose={closeAllPopups}
         />
@@ -305,7 +294,7 @@ function App() {
           onClose={closeAllPopups}
           onUpdateAvatar={handleUpdateAvatar}
         />
-        <ImagePopup card={selectedCard} onClose={closeAllPopups} />
+        <ImagePopup card={selectedCard} onClose={closeAllPopups} isPopupOpened={isAnyPopupOpened}/>
         <Footer />
       </div>
     </CurrentUserContext.Provider>
