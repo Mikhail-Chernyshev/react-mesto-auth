@@ -1,10 +1,9 @@
 import React from "react";
 import useForm from "../hooks/useForm";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function Register(props) {
   const { values, errors, handleChange, isFormValid, resetForm } = useForm();
-  const navigate = useNavigate();
 
   React.useEffect(() => {
     resetForm();
@@ -13,8 +12,6 @@ function Register(props) {
     evt.preventDefault();
     props.onSubmit(values);
     resetForm();
-    navigate("/signin");
-    props.changeRegStatus();
   }
 
   return (

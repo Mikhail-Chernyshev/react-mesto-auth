@@ -1,18 +1,14 @@
 import React from "react";
 import useForm from "../hooks/useForm";
-import { useNavigate } from "react-router-dom";
 
 function Login(props) {
   const { values, errors, handleChange, isFormValid, resetForm } = useForm();
-  const navigate = useNavigate();
   React.useEffect(() => {
     resetForm();
   }, [resetForm]);
   function handleSubmit(evt) {
     evt.preventDefault();
     props.onSubmit(values);
-    resetForm();
-    navigate('/');
   }
   return (
     <div className="login">

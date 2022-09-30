@@ -1,3 +1,5 @@
+import React from "react";
+import { useEffect } from "react";
 function PopupWithForm({
   name,
   isOpen,
@@ -7,10 +9,13 @@ function PopupWithForm({
   onClose,
   buttonText,
   isFormValid,
+  isPopupOpened,
 }) {
+
   return (
-    <div className={`popup popup-${name} ${isOpen && "popup_opened"}`}>
-      
+    <div
+      className={`popup popup-${name} ${isOpen && "popup_opened"}`}
+    >
       <div className="popup__content">
         <button
           className={`popup__close popup-${name}__close `}

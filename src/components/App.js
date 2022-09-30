@@ -20,23 +20,23 @@ import * as auth from "../utils/MestoAuth.js";
 function App() {
   const navigate = useNavigate();
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
-  const [isAddPlacePopupOpen, setisAddPlacePopupOpen] = useState(false);
-  const [isEditAvatarPopupOpen, setisEditAvatarPopupOpen] = useState(false);
+  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
+  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [isDeleteConfirmPopupOpen, setIsDeleteConfirmPopupOpen] =
     useState(false);
   const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
   const [cards, setCards] = useState([]);
-  const [currentUser, setCurrentUser] = useState("");
+  const [currentUser, setCurrentUser] = useState({});
   const [loggedIn, setLoggedIn] = useState(false);
-  const isOpen =
+  const isAnyPopupOpened =
     isEditAvatarPopupOpen ||
     isEditProfilePopupOpen ||
     isAddPlacePopupOpen ||
     selectedCard;
   const [isLoading, setIsLoading] = useState(false);
   const [currentDeletionCard, setCurrentDeletionCard] = useState(null);
-  const [isRegisterWellDone, setIsRegisterWellDone] = useState(false);
+  const [isRegisterWellDone, setIsRegisterWellDone] = useState(true);
   const [authEmail, setAuthEmail] = useState("");
 
   useEffect(() => {
@@ -45,13 +45,13 @@ function App() {
         closeAllPopups();
       }
     }
-    if (isOpen) {
+    if (isAnyPopupOpened) {
       document.addEventListener("keydown", closeByEscape);
       return () => {
         document.removeEventListener("keydown", closeByEscape);
       };
     }
-  }, [isOpen]);
+  }, [isAnyPopupOpened]);
 
   useEffect(() => {
     Promise.all([api.getUserInfo(), api.getCards()])
@@ -62,7 +62,7 @@ function App() {
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [loggedIn]);
 
   useEffect(() => {
     if (loggedIn) {
@@ -72,15 +72,15 @@ function App() {
 
   useEffect(() => {
     handleTokenCheck();
-  }, [handleTokenCheck]);
-  
+  }, []);
+
   function handleCardClick(card) {
     setSelectedCard(card);
   }
   function closeAllPopups() {
     setIsEditProfilePopupOpen(false);
-    setisAddPlacePopupOpen(false);
-    setisEditAvatarPopupOpen(false);
+    setIsAddPlacePopupOpen(false);
+    setIsEditAvatarPopupOpen(false);
     setIsDeleteConfirmPopupOpen(false);
     setIsInfoTooltipOpen(false);
     setSelectedCard(null);
@@ -92,21 +92,20 @@ function App() {
   function handleLogin() {
     setLoggedIn(true);
   }
-  function handleInfoToolOpen(){
-    setIsInfoTooltipOpen(true)
+  function handleInfoToolOpen() {
+    setIsInfoTooltipOpen(true);
   }
-  function handleRegisterWellDone(data) {
-    // setIsInfoTooltipOpen(data);
-    setIsRegisterWellDone(data);
+  function handleRegisterWellDone() {
+    setIsRegisterWellDone(false);
   }
   function handleEditProfileClick() {
     setIsEditProfilePopupOpen(true);
   }
   function handleEditAvatarClick() {
-    setisEditAvatarPopupOpen(true);
+    setIsEditAvatarPopupOpen(true);
   }
   function handleAddPlaceClick() {
-    setisAddPlacePopupOpen(true);
+    setIsAddPlacePopupOpen(true);
   }
   function handleCardLike(card) {
     const isLiked = card.likes.some((i) => i._id === currentUser._id);
@@ -194,25 +193,30 @@ function App() {
     auth
       .register(data)
       .then((res) => {
-        handleRegisterWellDone(true);
+        handleInfoToolOpen();
+        navigate("/signin");
       })
       .catch((err) => {
         handleInfoToolOpen();
+        handleRegisterWellDone();
       });
   }
   function handleAuthorize(data) {
     auth
       .authorize(data)
       .then((res) => {
-        if (res.token) localStorage.setItem("token", res.token);
-        setAuthEmail(data.data.email);
+        if (res.token) localStorage.setItem("jwt", res.token);
+        setAuthEmail(data.email);
         handleLogin();
-        handleTokenCheck();
         navigate("/");
       })
-      .catch((err) => {});
+      .catch((err) => {
+        handleInfoToolOpen();
+        handleRegisterWellDone();
+      });
   }
   function handleLoggedOut() {
+    localStorage.removeItem("jwt");
     setLoggedIn(false);
   }
   function handleTokenCheck() {
@@ -223,7 +227,6 @@ function App() {
     auth
       .getContent(jwt)
       .then((data) => {
-        console.log(data);
         setAuthEmail(data.data.email);
         handleLogin();
         navigate("/");
@@ -296,6 +299,7 @@ function App() {
           cardId={currentDeletionCard}
         />
         <EditAvatarPopup
+          isPopupOpened={isAnyPopupOpened}
           isLoading={isLoading}
           isOpen={isEditAvatarPopupOpen}
           onClose={closeAllPopups}

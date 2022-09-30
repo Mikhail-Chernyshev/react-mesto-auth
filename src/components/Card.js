@@ -1,8 +1,8 @@
-import trashup from "../images/Vectortrashup.png";
-import trashdown from "../images/Vectortrashdown.png";
+import trashUp from "../images/Vectortrashup.png";
+import trashDown from "../images/Vectortrashdown.png";
 import React from "react";
 import { CurrentUserContext } from "../contexts/CurrentUserContext.js";
-function Card({ card, onCardClick, onCardLike, onCardDelete, onDeleteClick, onCardDeleteClick }) {
+function Card({ card, onCardClick, onCardLike, onCardDeleteClick }) {
   function handleClick() {
     onCardClick(card);
   }
@@ -34,12 +34,12 @@ function Card({ card, onCardClick, onCardLike, onCardDelete, onDeleteClick, onCa
         onClick={handleDeleteClick}
       >
         <img
-          src={trashup}
+          src={trashUp}
           alt="кнопка удаления верх"
           className="element__trasher-up"
         />
         <img
-          src={trashdown}
+          src={trashDown}
           alt="кнопка удаления низ"
           className="element__trasher-down"
         />

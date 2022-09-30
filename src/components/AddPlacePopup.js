@@ -2,25 +2,25 @@ import React from "react";
 import PopupWithForm from "./PopupWithForm.js";
 import useForm from "../hooks/useForm";
 
-function AddPlacePopup(props) {
+function AddPlacePopup({onClose, isOpen, isLoading, onAddPlace }) {
   const { values, errors, handleChange, isFormValid, resetForm } = useForm();
   React.useEffect(() => {
     resetForm();
-  }, [resetForm, props.isOpen]);
+  }, [resetForm, isOpen]);
 
   function handleSubmit(evt) {
     evt.preventDefault();
-    props.onAddPlace({ name: values.name, link: values.link });
+    onAddPlace({ name: values.name, link: values.link });
   }
   return (
     <PopupWithForm
       isFormValid={isFormValid}
-      onClose={props.onClose}
-      isOpen={props.isOpen}
+      onClose={onClose}
+      isOpen={isOpen}
       onSubmit={handleSubmit}
       name="post"
       title="Новое место"
-      buttonText={props.isLoading ? "Сохранение..." : "Добавить"}
+      buttonText={isLoading ? "Сохранение..." : "Добавить"}
     >
       {" "}
       <div className="popup__container">
