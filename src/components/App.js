@@ -11,7 +11,7 @@ import EditProfilePopup from "./EditProfilePopup.js";
 import EditAvatarPopup from "./EditAvatarPopup.js";
 import AddPlacePopup from "./AddPlacePopup.js";
 import DeleteConfirmPopup from "./DeleteConfirmPopup";
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route, useNavigate, Navigate } from "react-router-dom";
 import Login from "./Login.js";
 import Register from "./Register.js";
 import InfoTooltip from "./InfoTooltip.js";
@@ -256,17 +256,18 @@ function App() {
           />
           <Route
             path="/*"
-            element={
-              <Main
-                onEditProfile={handleEditProfileClick}
-                onEditAvatar={handleEditAvatarClick}
-                onAddPlace={handleAddPlaceClick}
-                onCardClick={handleCardClick}
-                cards={cards}
-                onCardLike={handleCardLike}
-                onCardDeleteClick={handleDeleteConfirmClick}
-              />
-            }
+            element={loggedIn ? <Navigate to="/"/> : <Navigate to="/signin"/>}
+            // element={
+            //   <Main
+            //     onEditProfile={handleEditProfileClick}
+            //     onEditAvatar={handleEditAvatarClick}
+            //     onAddPlace={handleAddPlaceClick}
+            //     onCardClick={handleCardClick}
+            //     cards={cards}
+            //     onCardLike={handleCardLike}
+            //     onCardDeleteClick={handleDeleteConfirmClick}
+            //   />
+            // }
           />
         </Routes>
         <InfoTooltip
