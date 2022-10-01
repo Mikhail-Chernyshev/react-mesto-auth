@@ -256,18 +256,7 @@ function App() {
           />
           <Route
             path="/*"
-            element={loggedIn ? <Navigate to="/"/> : <Navigate to="/signin"/>}
-            // element={
-            //   <Main
-            //     onEditProfile={handleEditProfileClick}
-            //     onEditAvatar={handleEditAvatarClick}
-            //     onAddPlace={handleAddPlaceClick}
-            //     onCardClick={handleCardClick}
-            //     cards={cards}
-            //     onCardLike={handleCardLike}
-            //     onCardDeleteClick={handleDeleteConfirmClick}
-            //   />
-            // }
+            element={loggedIn ? <Navigate to="/" /> : <Navigate to="/signin" />}
           />
         </Routes>
         <InfoTooltip
