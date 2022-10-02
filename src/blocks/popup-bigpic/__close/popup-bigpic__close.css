@@ -1,8 +1,0 @@
-.popup-bigpic__close {}
-
-@media screen and (max-width: 787px) {
-    .popup-bigpic__close {
-        right: 0px;
-        top: -28px;
-    }
-}
