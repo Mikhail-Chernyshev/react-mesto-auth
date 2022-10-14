@@ -11,7 +11,7 @@ function Card({ card, onCardClick, onCardLike, onCardDeleteClick }) {
   }
   function handleDeleteClick(evt) {
     evt.preventDefault();
-    onCardDeleteClick(card._id)
+    onCardDeleteClick(card._id);
   }
 
   const currentUser = React.useContext(CurrentUserContext);

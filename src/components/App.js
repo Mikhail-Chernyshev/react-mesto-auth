@@ -22,18 +22,19 @@ function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
-  const [isDeleteConfirmPopupOpen, setIsDeleteConfirmPopupOpen] =
-    useState(false);
+  const [isDeleteConfirmPopupOpen, setIsDeleteConfirmPopupOpen] = useState(
+    false
+  );
   const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
   const [cards, setCards] = useState([]);
   const [currentUser, setCurrentUser] = useState({});
   const [loggedIn, setLoggedIn] = useState(false);
-  const isAnyPopupOpened =
-    isEditAvatarPopupOpen ||
-    isEditProfilePopupOpen ||
-    isAddPlacePopupOpen ||
-    selectedCard;
+  // const isAnyPopupOpened =
+  //   isEditAvatarPopupOpen ||
+  //   isEditProfilePopupOpen ||
+  //   isAddPlacePopupOpen ||
+  //   selectedCard;
   const [isLoading, setIsLoading] = useState(false);
   const [currentDeletionCard, setCurrentDeletionCard] = useState(null);
   const [isSuccessTooltipStatus, setIsSuccessTooltipStatus] = useState(true);
