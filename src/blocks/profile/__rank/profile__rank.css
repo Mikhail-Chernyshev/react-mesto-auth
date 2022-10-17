@@ -7,7 +7,7 @@
     grid-row: 5/7;
     white-space: nowrap;
     text-overflow: ellipsis;
-    overflow: hidden;
+    /* overflow: hidden; */
 }
 
 @media screen and (max-width: 767px) {
