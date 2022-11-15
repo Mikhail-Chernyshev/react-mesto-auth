@@ -1,8 +1,11 @@
-export const BASE_URL = "https://auth.nomoreparties.co";
+// export const BASE_URL = "https://auth.nomoreparties.co";
+export const BASE_URL = "http://localhost:4000";
+
 
 export function handleRequest({ url, method = "POST", token, data }) {
   return fetch(`${BASE_URL}${url}`, {
     method,
+    // credentials: 'include',
     headers: {
       accept: "application/json",
       "content-type": "application/json",

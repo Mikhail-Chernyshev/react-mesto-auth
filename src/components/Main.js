@@ -15,6 +15,7 @@ function Main({
   onCardDeleteClick,
 }) {
   const currentUser = React.useContext(CurrentUserContext);
+
   return (
     <main className="main">
       <section className="profile">

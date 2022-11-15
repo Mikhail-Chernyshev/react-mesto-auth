@@ -94,7 +94,7 @@ function App() {
     setIsAddPlacePopupOpen(true);
   }
   function handleCardLike(card) {
-    const isLiked = card.likes.some((i) => i._id === currentUser._id);
+    const isLiked = card.likes.some((i) => i === currentUser._id);
     if (!isLiked) {
       api
         .setLikeCard(card._id, !isLiked)
@@ -214,7 +214,7 @@ function App() {
     auth
       .getContent(jwt)
       .then((data) => {
-        setAuthEmail(data.data.email);
+        setAuthEmail(data.email);
         handleLogin();
         navigate("/");
       })
