@@ -83,7 +83,8 @@ class Api {
   }
 }
 const api = new Api({
-  host: 'http://localhost:4000',
+  // host: 'http://localhost:4000',
+  host: 'http://placeMikhail.students.nomoredomains.icu'
   // host: "https://mesto.nomoreparties.co/v1/cohort-47/",
   // token: "dfd0d591-2c36-49ee-a6dc-331afeedf1bc",
 });
