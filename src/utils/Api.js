@@ -78,7 +78,6 @@ class Api {
   removeLikeCard(cardId) {
     return fetch(`${this._host}/cards/${cardId}/likes`, {
       method: 'DELETE',
-      // credentials: 'include',
       headers: this._getHeaders(),
     }).then((res) => this._getJsonOnError(res));
   }

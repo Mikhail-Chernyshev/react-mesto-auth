@@ -94,7 +94,8 @@ function App() {
     setIsAddPlacePopupOpen(true);
   }
   function handleCardLike(card) {
-    const isLiked = card.likes.some((i) => i === currentUser._id);
+    // const isLiked = card.likes.some((i) => i === currentUser._id);
+    const isLiked = card.likes.some(i => i._id === currentUser._id);
     if (!isLiked) {
       api
         .setLikeCard(card._id, !isLiked)
@@ -106,9 +107,10 @@ function App() {
         .catch((err) => {
           console.error(err);
         });
+        
     } else {
       api
-        .removeLikeCard(card._id, isLiked)
+        .removeLikeCard(card._id, !isLiked)
         .then((newCard) => {
           setCards((state) =>
             state.map((c) => (c._id === card._id ? newCard : c))
