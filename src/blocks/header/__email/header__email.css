@@ -6,3 +6,11 @@
     font-size: 18px;
     line-height: 22px;
 }
+@media screen and (max-width: 768px) {
+    .header__email {
+        font-size: 14px;
+        text-align: right;  
+        margin: 0;
+    }
+    
+}
