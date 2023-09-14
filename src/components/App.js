@@ -1,29 +1,30 @@
-import '../index.css';
-import Header from './Header.js';
-import Main from './Main.js';
-import Footer from './Footer.js';
-import { useEffect, useState } from 'react';
-import React from 'react';
-import ImagePopup from './ImagePopup.js';
-import api from '../utils/Api';
-import { CurrentUserContext } from '../contexts/CurrentUserContext.js';
-import EditProfilePopup from './EditProfilePopup.js';
-import EditAvatarPopup from './EditAvatarPopup.js';
-import AddPlacePopup from './AddPlacePopup.js';
-import DeleteConfirmPopup from './DeleteConfirmPopup';
-import { Routes, Route, useNavigate, Navigate } from 'react-router-dom';
-import Login from './Login.js';
-import Register from './Register.js';
-import InfoTooltip from './InfoTooltip.js';
-import ProtectedRoute from './ProtectedRoute.js';
-import * as auth from '../utils/MestoAuth.js';
+import "../index.css";
+import Header from "./Header.js";
+import Main from "./Main.js";
+import Footer from "./Footer.js";
+import { useEffect, useState } from "react";
+import React from "react";
+import ImagePopup from "./ImagePopup.js";
+import api from "../utils/Api";
+import { CurrentUserContext } from "../contexts/CurrentUserContext.js";
+import EditProfilePopup from "./EditProfilePopup.js";
+import EditAvatarPopup from "./EditAvatarPopup.js";
+import AddPlacePopup from "./AddPlacePopup.js";
+import DeleteConfirmPopup from "./DeleteConfirmPopup";
+import { Routes, Route, useNavigate, Navigate } from "react-router-dom";
+import Login from "./Login.js";
+import Register from "./Register.js";
+import InfoTooltip from "./InfoTooltip.js";
+import ProtectedRoute from "./ProtectedRoute.js";
+import * as auth from "../utils/MestoAuth.js";
 function App() {
   const navigate = useNavigate();
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
-  const [isDeleteConfirmPopupOpen, setIsDeleteConfirmPopupOpen] =
-    useState(false);
+  const [isDeleteConfirmPopupOpen, setIsDeleteConfirmPopupOpen] = useState(
+    false
+  );
   const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
   const [cards, setCards] = useState([]);
@@ -37,7 +38,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [currentDeletionCard, setCurrentDeletionCard] = useState(null);
   const [isSuccessTooltipStatus, setIsSuccessTooltipStatus] = useState(true);
-  const [authEmail, setAuthEmail] = useState('');
+  const [authEmail, setAuthEmail] = useState("");
 
   useEffect(() => {
     if (loggedIn) {
@@ -54,7 +55,7 @@ function App() {
 
   useEffect(() => {
     if (loggedIn) {
-      navigate('/');
+      navigate("/");
     }
   }, [loggedIn, navigate]);
 
@@ -77,7 +78,6 @@ function App() {
     setCurrentDeletionCard(card);
     setIsDeleteConfirmPopupOpen(true);
   }
-  console.log(process.env.NODE_ENV);
   function handleLogin() {
     setLoggedIn(true);
   }
@@ -95,7 +95,7 @@ function App() {
   }
   function handleCardLike(card) {
     // const isLiked = card.likes.some((i) => i === currentUser._id);
-    const isLiked = card.likes.some((i) => i._id === currentUser._id);
+    const isLiked = card.likes.some(i => i._id === currentUser._id);
     if (!isLiked) {
       api
         .setLikeCard(card._id, !isLiked)
@@ -107,6 +107,7 @@ function App() {
         .catch((err) => {
           console.error(err);
         });
+        
     } else {
       api
         .removeLikeCard(card._id, !isLiked)
@@ -182,7 +183,7 @@ function App() {
       .then((res) => {
         handleInfoToolOpen();
         setIsSuccessTooltipStatus(true);
-        navigate('/signin');
+        navigate("/signin");
       })
       .catch((err) => {
         handleInfoToolOpen();
@@ -193,10 +194,10 @@ function App() {
     auth
       .authorize(data)
       .then((res) => {
-        if (res.token) localStorage.setItem('jwt', res.token);
+        if (res.token) localStorage.setItem("jwt", res.token);
         setAuthEmail(data.email);
         handleLogin();
-        navigate('/');
+        navigate("/");
       })
       .catch((err) => {
         handleInfoToolOpen();
@@ -204,11 +205,11 @@ function App() {
       });
   }
   function handleLoggedOut() {
-    localStorage.removeItem('jwt');
+    localStorage.removeItem("jwt");
     setLoggedIn(false);
   }
   function handleTokenCheck() {
-    const jwt = localStorage.getItem('jwt');
+    const jwt = localStorage.getItem("jwt");
     if (!jwt) {
       return;
     }
@@ -217,14 +218,14 @@ function App() {
       .then((data) => {
         setAuthEmail(data.email);
         handleLogin();
-        navigate('/');
+        navigate("/");
       })
       .catch((err) => console.log(err));
   }
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
-      <div className='page'>
+      <div className="page">
         <Header
           email={authEmail}
           onClick={handleLoggedOut}
@@ -232,7 +233,7 @@ function App() {
         ></Header>
         <Routes>
           <Route
-            path='/'
+            path="/"
             element={
               <ProtectedRoute loggedIn={loggedIn}>
                 <Main
@@ -249,32 +250,17 @@ function App() {
           ></Route>
 
           <Route
-            path='/signup'
+            path="/signup"
             element={<Register onSubmit={handleRegister} />}
           />
           <Route
-            path='/signin'
+            path="/signin"
             element={<Login onSubmit={handleAuthorize} />}
           />
-          {process.env.NODE_ENV === 'development' ? (
-            <Route
-              path='/*'
-              element={
-                loggedIn ? <Navigate to='/' /> : <Navigate to='/signin' />
-              }
-            />
-          ) : (
-            <Route
-              path='/*'
-              element={
-                loggedIn ? (
-                  <Navigate to='/react-mesto-auth' />
-                ) : (
-                  <Navigate to='/react-mesto-auth/signin' />
-                )
-              }
-            />
-          )}
+          <Route
+            path="/*"
+            element={loggedIn ? <Navigate to="/" /> : <Navigate to="/signin" />}
+          />
         </Routes>
         <InfoTooltip
           isSuccess={isSuccessTooltipStatus}
