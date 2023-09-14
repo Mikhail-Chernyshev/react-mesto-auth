@@ -16,7 +16,7 @@ function Login(props) {
       <form className="popup__data popup-login__data login__data" noValidate>
         <div className="popup__container">
           <input
-            type="text"
+            type="email"
             id="email-input"
             minLength="2 "
             maxLength="400"
